@@ -5,10 +5,13 @@ import { fetchDataFromCsv } from "../store/feature/dataSlice";
 import { format } from "date-fns";
 import ActionButtons from "../components/common/ActionButtons";
 import { incrementCounter } from "../store/feature/table/tableSlice";
+import Pagination from "../components/table/Pagination";
 
 export default function Table() {
   const { data, loading, error } = useSelector((state) => state.data);
-  const { counter, isPollingActive } = useSelector((state) => state.table);
+  const { counter, isPollingActive, currentPage, dataPerPage } = useSelector(
+    (state) => state.table
+  );
 
   const dispatch = useDispatch();
 
@@ -32,6 +35,11 @@ export default function Table() {
   ]);
 
   const now = format(new Date(), "HH:mm:ss");
+
+  // Get current datas
+  const indexOfLastPost = currentPage * dataPerPage;
+  const indexOfFirstPost = indexOfLastPost - dataPerPage;
+  const currentData = data.slice(indexOfFirstPost, indexOfLastPost);
 
   return (
     <>
@@ -87,7 +95,7 @@ export default function Table() {
                         </td>
                       </tr>
                     )}
-                    {data.slice(1, counter).map((row, index) => (
+                    {currentData.slice(1, counter).map((row, index) => (
                       <tr key={index}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-500">time</div>
@@ -106,6 +114,8 @@ export default function Table() {
                   </tbody>
                 </table>
               </div>
+
+              <Pagination totalData={data.slice(1, counter).length} />
             </div>
           </div>
         </div>
