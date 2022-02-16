@@ -25,8 +25,18 @@ export const counterSlice = createSlice({
     });
 
     builder.addCase(fetchDataFromCsv.fulfilled, (state, { payload }) => {
+
+      //Convert into an array of objects
+      var objs = payload.slice(1).map((x) => {
+        return {
+          a: x[0],
+          b: x[1],
+          c: x[2]
+        };
+      });
+
       state.loading = false;
-      state.data = payload;
+      state.data = objs;
     });
 
     builder.addCase(fetchDataFromCsv.rejected, (state, { payload }) => {

@@ -4,7 +4,6 @@ import PageTitle from "../components/PageTitle";
 import { fetchDataFromCsv } from "../store/feature/dataSlice";
 import { format } from "date-fns";
 import ActionButtons from "../components/common/ActionButtons";
-import { incrementCounter } from "../store/feature/table/tableSlice";
 import Pagination from "../components/table/Pagination";
 
 export default function Table() {
@@ -17,29 +16,23 @@ export default function Table() {
 
   useEffect(() => {
     dispatch(fetchDataFromCsv());
-
-    const intervalId = setInterval(() => {
-      if (isPollingActive) {
-        dispatch(incrementCounter());
-      }
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [
-    dispatch,
-    isPollingActive,
-    incrementCounter,
-    setInterval,
-    fetchDataFromCsv,
-    clearInterval,
-  ]);
+  }, [dispatch, fetchDataFromCsv]);
 
   const now = format(new Date(), "HH:mm:ss");
 
   // Get current datas
-  const indexOfLastPost = currentPage * dataPerPage;
-  const indexOfFirstPost = indexOfLastPost - dataPerPage;
-  const currentData = data.slice(indexOfFirstPost, indexOfLastPost);
+  let currentData = [];
+  const indexOfLastData = currentPage * dataPerPage;
+  const indexOfFirstData = indexOfLastData - dataPerPage;
+  const indexInBetween = indexOfLastData - (indexOfLastData - counter);
+  currentData = data.slice(indexOfFirstData, indexOfLastData);
+
+  //if counter is beetween indexLast & indexFirst, slice till counter
+  if (counter > indexOfFirstData && counter < indexOfLastData) {
+    currentData = data.slice(indexOfFirstData, indexInBetween);
+  }
+
+  if (error) return <p>oops.. error while loading data</p>;
 
   return (
     <>
@@ -95,19 +88,19 @@ export default function Table() {
                         </td>
                       </tr>
                     )}
-                    {currentData.slice(1, counter).map((row, index) => (
+                    {currentData.slice(0, counter).map((row, index) => (
                       <tr key={index}>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-500">time</div>
+                          <div className="text-sm text-gray-500">{now}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-500">{row[0]}</div>
+                          <div className="text-sm text-gray-500">{row.a}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-500">{row[1]}</div>
+                          <div className="text-sm text-gray-500">{row.b}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-500">{row[2]}</div>
+                          <div className="text-sm text-gray-500">{row.c}</div>
                         </td>
                       </tr>
                     ))}
@@ -115,7 +108,12 @@ export default function Table() {
                 </table>
               </div>
 
-              <Pagination totalData={data.slice(1, counter).length} />
+              <Pagination
+                totalData={data.slice(0, counter).length}
+                indexOfFirstData={indexOfFirstData}
+                indexOfLastData={indexOfLastData}
+                indexInBetween={indexInBetween}
+              />
             </div>
           </div>
         </div>

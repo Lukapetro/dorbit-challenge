@@ -37,9 +37,9 @@ export default function ActionButtons() {
         onClick={handleClick}
       >
         {intervalId ? (
-          <PauseIcon className="h-6 w-6" aria-hidden="true" />
+          <PauseIcon className="h-8 w-8" aria-hidden="true" />
         ) : (
-          <PlayIcon className="h-6 w-6" aria-hidden="true" />
+          <PlayIcon className="h-8 w-8" aria-hidden="true" />
         )}
       </button>
       <button
@@ -47,7 +47,7 @@ export default function ActionButtons() {
         className=" p-1 rounded-full text-black hover:text-gray-400"
         onClick={handleReset}
       >
-        <RefreshIcon className="h-6 w-6" aria-hidden="true" />
+        <RefreshIcon className="h-8 w-8" aria-hidden="true" />
       </button>
     </div>
   );
