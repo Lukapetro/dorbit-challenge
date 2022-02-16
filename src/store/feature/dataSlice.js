@@ -4,7 +4,8 @@ import { getDataFromCsv } from '../../utils/getDataFromCsv'
 const initialState = {
   data: [],
   error: "",
-  loading: false
+  loading: false,
+  currentData: []
 }
 
 export const fetchDataFromCsv = createAsyncThunk(
@@ -15,17 +16,20 @@ export const fetchDataFromCsv = createAsyncThunk(
   }
 )
 
-export const counterSlice = createSlice({
-  name: 'counter',
+export const dataSlice = createSlice({
+  name: 'data',
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentData: (state, { payload }) => {
+      state.currentData = payload
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchDataFromCsv.pending, (state) => {
       state.loading = true;
     });
 
     builder.addCase(fetchDataFromCsv.fulfilled, (state, { payload }) => {
-
       //Convert into an array of objects
       var objs = payload.slice(1).map((x) => {
         return {
@@ -46,6 +50,6 @@ export const counterSlice = createSlice({
   },
 })
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
+export const { setCurrentData } = dataSlice.actions
 
-export default counterSlice.reducer
+export default dataSlice.reducer
