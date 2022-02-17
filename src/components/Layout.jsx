@@ -2,6 +2,7 @@ import React from "react";
 import { Disclosure } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import Avatar from "../assets/images/avatar.png";
+import Logo from "../assets/images/logo.jpeg";
 import CustomLink from "./CustomLink";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
@@ -29,11 +30,7 @@ export default function Layout({ children }) {
                 <div className="flex items-center justify-between h-16">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <img
-                        className="h-8 w-8"
-                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                        alt="Workflow"
-                      />
+                      <img className="h-8 w-8 " src={Logo} alt="Workflow" />
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
