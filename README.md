@@ -2,7 +2,7 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://happy-jones-f86c19.netlify.app/login)
+[![Product Name Screen Shot][product-screenshot]](https://competent-curran-e82317.netlify.app/)
 
 This project was made as challenge for [D-ORBIT](https://www.dorbit.space/)
 
@@ -11,7 +11,7 @@ This project was made as challenge for [D-ORBIT](https://www.dorbit.space/)
 - [React.js](https://reactjs.org/)
 - [Tailwind](https://tailwindcss.com/) for styling
 - [Papaparse](https://www.papaparse.com/) for parsing CSV
-- Versioned on [Github](https://github.com/Lukapetro/beconcept-challenge)
+- Versioned on [Github](https://github.com/Lukapetro/dorbit-challenge)
 - Deployed on [Netlify](https://www.netlify.com/)
 
 <!-- GETTING STARTED -->
@@ -20,7 +20,7 @@ This project was made as challenge for [D-ORBIT](https://www.dorbit.space/)
 
 ### Run now
 
-You can see a live demo of the project at [this link](https://happy-jones-f86c19.netlify.app/login)
+You can see a live demo of the project at [this link](https://competent-curran-e82317.netlify.app/)
 
 ### Local installation
 
@@ -51,8 +51,8 @@ npm run start
 
 Luka Petrovic - [@lukapetro](https://www.linkedin.com/in/lukapetro/) - lucapetro93@gmail.com
 
-Project Link: [https://github.com/lukapetro/beconcept-challenge](https://github.com/lukapetro/beconcept-challenge)
+Project Link: [https://github.com/lukapetro/beconcept-challenge](https://github.com/Lukapetro/dorbit-challenge)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[product-screenshot]: src/assets/img/dorbit-challenge.png
+[product-screenshot]: src/assets/images/dorbit-challenge.png
