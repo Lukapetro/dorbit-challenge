@@ -1,30 +1,36 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PageTitle from "../components/PageTitle";
+import { format } from "date-fns";
 import ActionButtons from "../components/common/ActionButtons";
 import Pagination from "../components/table/Pagination";
 import { fetchDataFromCsv } from "../store/feature/data/data.actions";
 
 export default function Table() {
-  const { counter, loading, error, currentData, data } = useSelector(
-    (state) => state.data
+  const { data, loading, error } = useSelector((state) => state.data);
+  const { counter, isPollingActive, currentPage, dataPerPage } = useSelector(
+    (state) => state.table
   );
-  const { currentPage, dataPerPage } = useSelector((state) => state.table);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    //data has already been fetched
-    if (!data.length) {
-      dispatch(fetchDataFromCsv());
-    }
-  }, [dispatch, fetchDataFromCsv, data.length]);
+    dispatch(fetchDataFromCsv());
+  }, [dispatch, fetchDataFromCsv]);
+
+  const now = format(new Date(), "HH:mm:ss");
 
   // Get current datas
+  let currentData = [];
   const indexOfLastData = currentPage * dataPerPage;
   const indexOfFirstData = indexOfLastData - dataPerPage;
+  const indexInBetween = indexOfLastData - (indexOfLastData - counter);
+  currentData = data.slice(indexOfFirstData, indexOfLastData);
 
-  const paginatedData = currentData.slice(indexOfFirstData, indexOfLastData);
+  //if counter is beetween indexLast & indexFirst, slice till counter
+  if (counter > indexOfFirstData && counter < indexOfLastData) {
+    currentData = data.slice(indexOfFirstData, indexInBetween);
+  }
 
   if (error) return <p>oops.. error while loading data</p>;
 
@@ -73,7 +79,7 @@ export default function Table() {
                   </thead>
 
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {counter === 0 && (
+                    {counter === 0 && !isPollingActive && (
                       <tr>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <p className="text-sm text-gray-500">
@@ -82,12 +88,10 @@ export default function Table() {
                         </td>
                       </tr>
                     )}
-                    {paginatedData.slice(0, counter).map((row, index) => (
+                    {currentData.slice(0, counter).map((row, index) => (
                       <tr key={index}>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-500">
-                            {row.timestamp}
-                          </div>
+                          <div className="text-sm text-gray-500">{now}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-500">{row.a}</div>
@@ -103,10 +107,12 @@ export default function Table() {
                   </tbody>
                 </table>
               </div>
+
               <Pagination
-                totalData={currentData.length}
+                totalData={data.slice(0, counter).length}
                 indexOfFirstData={indexOfFirstData}
                 indexOfLastData={indexOfLastData}
+                indexInBetween={indexInBetween}
               />
             </div>
           </div>

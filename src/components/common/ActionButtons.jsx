@@ -1,14 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setIntervalId,
-  incrementCounter,
-  reset,
-} from "../../store/feature/table/tableSlice";
 import { PlayIcon, PauseIcon, RefreshIcon } from "@heroicons/react/outline";
+import {
+  incrementCounterAndUpdateCurrentData,
+  reset,
+  setIntervalId,
+} from "../../store/feature/data/data.slice";
+import { resetCurrentPage } from "../../store/feature/table/tableSlice";
 
 export default function ActionButtons() {
   const dispatch = useDispatch();
-  const { intervalId } = useSelector((state) => state.table);
+  const { intervalId } = useSelector((state) => state.data);
 
   const handleClick = () => {
     if (intervalId) {
@@ -18,15 +19,15 @@ export default function ActionButtons() {
     }
 
     const newIntervalId = setInterval(() => {
-      dispatch(incrementCounter());
+      dispatch(incrementCounterAndUpdateCurrentData());
     }, 1000);
     dispatch(setIntervalId(newIntervalId));
   };
 
   const handleReset = () => {
     clearInterval(intervalId);
-    dispatch(setIntervalId(0));
     dispatch(reset());
+    dispatch(resetCurrentPage());
   };
 
   return (

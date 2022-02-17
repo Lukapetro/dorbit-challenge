@@ -7,26 +7,19 @@ export default function Pagination({
   totalData,
   indexOfFirstData,
   indexOfLastData,
-  indexInBetween,
 }) {
   const pageNumbers = [];
   const dispatch = useDispatch();
-  const { counter, currentPage, dataPerPage } = useSelector(
-    (state) => state.table
-  );
+  const { currentPage, dataPerPage } = useSelector((state) => state.table);
 
   for (let i = 1; i <= Math.ceil(totalData / dataPerPage); i++) {
     pageNumbers.push(i);
   }
 
-  const indexOfLastText = (
-    indexOfLastData,
-    indexOfFirstData,
-    indexInBetween
-  ) => {
-    if (!counter) return "0";
-    if (counter > indexOfFirstData && counter < indexOfLastData) {
-      return indexInBetween;
+  const indexOfLastText = (indexOfLastData, indexOfFirstData, totalData) => {
+    if (!totalData) return 0;
+    if (totalData > indexOfFirstData && totalData < indexOfLastData) {
+      return totalData;
     }
     return indexOfLastData;
   };
@@ -34,20 +27,31 @@ export default function Pagination({
   return (
     <div className="mt-4">
       {/** Mobile Pagination */}
-
       <div className="flex-1 flex justify-between sm:hidden">
-        <a
-          href="#"
-          className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+        <button
+          disabled={currentPage === 1}
+          onClick={() => dispatch(paginate(currentPage - 1))}
+          className={classNames(
+            currentPage === 1
+              ? "border-gray-200  text-gray-300"
+              : "border-gray-300  text-gray-700  hover:bg-gray-50",
+            "relative inline-flex items-center px-4 py-2 border text-sm font-medium rounded-md bg-white"
+          )}
         >
           Previous
-        </a>
-        <a
-          href="#"
-          className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+        </button>
+        <button
+          disabled={currentPage === pageNumbers.length}
+          onClick={() => dispatch(paginate(currentPage + 1))}
+          className={classNames(
+            currentPage === pageNumbers.length
+              ? "border-gray-200  text-gray-300"
+              : "border-gray-300  text-gray-700  hover:bg-gray-50",
+            "relative inline-flex items-center px-4 py-2 border text-sm font-medium rounded-md bg-white"
+          )}
         >
           Next
-        </a>
+        </button>
       </div>
 
       {/** Pagination */}
@@ -55,15 +59,15 @@ export default function Pagination({
         <p className="text-sm text-gray-700">
           Showing{" "}
           <span className="font-medium">
-            {!counter ? "0" : indexOfFirstData + 1}
+            {!totalData ? 0 : indexOfFirstData + 1}
           </span>{" "}
           to{" "}
           <span className="font-medium">
-            {indexOfLastText(indexOfLastData, indexOfFirstData, indexInBetween)}
+            {indexOfLastText(indexOfLastData, indexOfFirstData, totalData)}
           </span>{" "}
-          of <span className="font-medium">{counter}</span> results
+          of <span className="font-medium">{totalData}</span> results
         </p>
-        {counter !== 0 && (
+        {totalData !== 0 && (
           <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
             <button
               disabled={currentPage === 1}
@@ -79,7 +83,7 @@ export default function Pagination({
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
             </button>
             {pageNumbers.map((number) => (
-              <a
+              <button
                 key={number}
                 onClick={() => dispatch(paginate(number))}
                 className={classNames(
@@ -88,10 +92,9 @@ export default function Pagination({
                     : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium",
                   ""
                 )}
-                href="#"
               >
                 {number}
-              </a>
+              </button>
             ))}
 
             <button

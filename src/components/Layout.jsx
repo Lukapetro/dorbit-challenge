@@ -1,5 +1,5 @@
 import React from "react";
-import { Disclosure, Menu } from "@headlessui/react";
+import { Disclosure } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import Avatar from "../assets/images/avatar.png";
 import CustomLink from "./CustomLink";
@@ -47,17 +47,17 @@ export default function Layout({ children }) {
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-4 flex items-center md:ml-6">
-                      <Menu as="div" className="ml-3 relative">
-                        <div>
-                          <Menu.Button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                            <img
-                              className="h-8 w-8 rounded-full"
-                              src={user.imageUrl}
-                              alt=""
-                            />
-                          </Menu.Button>
-                        </div>
-                      </Menu>
+                      <a
+                        href="https://www.lukapetrovic.dev/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <img
+                          className="h-8 w-8 rounded-full"
+                          src={user.imageUrl}
+                          alt=""
+                        />
+                      </a>
                     </div>
                   </div>
 
@@ -100,11 +100,17 @@ export default function Layout({ children }) {
                 <div className="pt-4 pb-3 border-t border-gray-700">
                   <div className="flex items-center px-5">
                     <div className="flex-shrink-0">
-                      <img
-                        className="h-10 w-10 rounded-full"
-                        src={user.imageUrl}
-                        alt=""
-                      />
+                      <a
+                        href="https://www.lukapetrovic.dev/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <img
+                          className="h-10 w-10 rounded-full"
+                          src={user.imageUrl}
+                          alt=""
+                        />
+                      </a>
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium leading-none text-white">

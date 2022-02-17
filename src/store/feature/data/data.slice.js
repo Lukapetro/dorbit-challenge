@@ -1,20 +1,15 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getDataFromCsv } from '../../utils/getDataFromCsv'
+import { createSlice } from '@reduxjs/toolkit'
+import { format } from 'date-fns';
+import { fetchDataFromCsv } from './data.actions';
 
 const initialState = {
   data: [],
+  currentData: [],
   error: "",
   loading: false,
-  currentData: []
+  counter: 0,
+  intervalId: 0,
 }
-
-export const fetchDataFromCsv = createAsyncThunk(
-  'data/fetchDataFromCsv',
-  async () => {
-    const response = await getDataFromCsv()
-    return response.data
-  }
-)
 
 export const dataSlice = createSlice({
   name: 'data',
@@ -22,6 +17,22 @@ export const dataSlice = createSlice({
   reducers: {
     setCurrentData: (state, { payload }) => {
       state.currentData = payload
+    },
+    incrementCounterAndUpdateCurrentData: (state) => {
+      state.counter += 1
+      const currentData = state.data.slice(0, state.counter)
+      const index = state.counter - 1
+      const timestamp = format(new Date(), "HH:mm:ss");
+      Object.assign(currentData[index], { timestamp: timestamp });
+      state.currentData = currentData
+    },
+    setIntervalId: (state, { payload }) => {
+      state.intervalId = payload
+    },
+    reset: (state) => {
+      state.counter = 0
+      state.intervalId = 0
+      state.currentData = []
     },
   },
   extraReducers: (builder) => {
@@ -50,6 +61,6 @@ export const dataSlice = createSlice({
   },
 })
 
-export const { setCurrentData } = dataSlice.actions
+export const { setCurrentData, incrementCounterAndUpdateCurrentData, setIntervalId, reset } = dataSlice.actions
 
 export default dataSlice.reducer
