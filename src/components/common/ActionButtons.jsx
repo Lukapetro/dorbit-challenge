@@ -6,10 +6,11 @@ import {
   setIntervalId,
 } from "../../store/feature/data/data.slice";
 import { resetCurrentPage } from "../../store/feature/table/tableSlice";
+import { useEffect } from "react";
 
 export default function ActionButtons() {
   const dispatch = useDispatch();
-  const { intervalId } = useSelector((state) => state.data);
+  const { intervalId, counter } = useSelector((state) => state.data);
 
   const handleClick = () => {
     if (intervalId) {
@@ -29,6 +30,12 @@ export default function ActionButtons() {
     dispatch(reset());
     dispatch(resetCurrentPage());
   };
+
+  useEffect(() => {
+    if (counter === 100) {
+      handleReset();
+    }
+  }, [counter]);
 
   return (
     <div className="ml-10 flex items-baseline space-x-4">
