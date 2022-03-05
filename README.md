@@ -51,7 +51,7 @@ npm run start
 
 Luka Petrovic - [@lukapetro](https://www.linkedin.com/in/lukapetro/) - lucapetro93@gmail.com
 
-Project Link: [https://github.com/lukapetro/beconcept-challenge](https://github.com/Lukapetro/dorbit-challenge)
+Project Link: [https://github.com/Lukapetro/dorbit-challenge](https://github.com/Lukapetro/dorbit-challenge)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
